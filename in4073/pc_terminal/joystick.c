@@ -1,44 +1,39 @@
 #include "joystick.h"
-#include "../protocol/packet.h"
 
 /*
-Description:
-	Joystick initialization
+	Description:
+		Joystick initialization
+	Inputs:
+		* fd
+	Outputs:
+		None
 */
 void js_init(int* fd)
 {
-	unsigned char axes = 2;
-	unsigned char buttons = 2;
-	int version = 0x000800;
-	char name[NAME_LENGTH] = "Unknown";
-
 	if ((*fd = open(JS_DEV, O_RDONLY)) < 0)
 	{
 		perror("jyinit");
 		exit(1);
 	}
 
-	ioctl(*fd, JSIOCGVERSION, &version);
-	ioctl(*fd, JSIOCGAXES, &axes);
-	ioctl(*fd, JSIOCGBUTTONS, &buttons);
-	ioctl(*fd, JSIOCGNAME(NAME_LENGTH), name);
-
-	printf("Joystick (%s) has %d axes and %d buttons. Driver version is %d.%d.%d.\n",
-		name, axes, buttons, version >> 16, (version >> 8) & 0xff, version & 0xff);
-	printf("Testing ... (interrupt to exit)\n");
-
 	/* non-blocking mode
 	*/
 	fcntl(*fd, F_SETFL, O_NONBLOCK);
 }
 
+
 /*
-Description:
-	If we get some inputs from the joystick, read the command.
+	Description: 
+		Read inputs from joystick
+	Inputs:
+		* fd, * axis, * button
+	Outputs:
+		a js_command
 */
-void read_js(int* fd, int* axis, int* button)
+js_command read_js(int* fd, int* axis, int* button)
 {
 	struct js_event js;
+	js_command js_c;
 
 	/* check up on JS
 	*/
@@ -50,10 +45,10 @@ void read_js(int* fd, int* axis, int* button)
 		// fprintf(stderr,".");
 		switch (js.type & ~JS_EVENT_INIT) {
 		case JS_EVENT_BUTTON:
-			button[js.number] = js.value;
+			*button[js.number] = js.value;
 			break;
 		case JS_EVENT_AXIS:
-			axis[js.number] = js.value;
+			*axis[js.number] = js.value;
 			break;
 		}
 	}
@@ -65,26 +60,50 @@ void read_js(int* fd, int* axis, int* button)
 	}
 
 	// Switch the mode
-	if (button[0])
-		mode = M_SAFE;
-	if (button[1])
-		mode = M_PANIC;
-	if (button[2])
-		mode = M_MANUAL;
-	if (button[3])
-		mode = M_CALIBRATION;
-	if (button[4])
-		mode = M_YAWCONTROL;
-	if (button[5])
-		mode = M_FULLCONTROL;
-	if (button[6])
-		mode = M_RAWMODE;
-	if (button[7])
-		mode = M_HEIGHTCONTROL;
-	if (button[8])
-		mode = M_WIRELESS;
+	if (*button[0])
+		js_c->Mode = M_SAFE;
+	if (*button[1])
+		js_c->Mode = M_PANIC;
+	if (*button[2])
+		js_c->Mode = M_MANUAL;
+	if (*button[3])
+		js_c->Mode = M_CALIBRATION;
+	if (*button[4])
+		js_c->Mode = M_YAWCONTROL;
+	if (*button[5])
+		js_c->Mode = M_FULLCONTROL;
+	if (*button[6])
+		js_c->Mode = M_RAWMODE;
+	if (*button[7])
+		js_c->Mode = M_HEIGHTCONTROL;
+	if (*button[8])
+		js_c->Mode = M_WIRELESS;
 
-	// Actions
-	//if (axis)
+	/*
+	// roll
+	if (*axis(0))
+	{
+		js_c->Roll = *axis(0);
+	}
 
+	// pitch
+	if (*axis(1))
+	{
+		js_c->Pitch = *axis(1);
+	}
+
+	// yaw
+	if (*axis(2))
+	{
+		js_c->Yaw = *axis(2);
+	}
+
+	// lift
+	if (*axis(3))
+	{
+		js_c->Lift = *axis(3);
+	}
+	*/
+
+	return js_c;
 }

@@ -32,6 +32,8 @@
 #include <asm/types.h>
 #include <linux/input.h>
 
+#include "../protocol/packet.h"
+
 /*
  * Version
  */
@@ -128,7 +130,16 @@ struct JS_DATA_SAVE_TYPE {
 	struct JS_DATA_TYPE JS_CORR;
 };
 
-void js_init(int* fd)
-void read_js(int* fd)
+typedef struct JS_COMMAND
+{
+	char Mode;
+	char Roll;
+	char Pitch;
+	char Yaw;
+	char Lift;
+}js_command;
+
+void js_init(int* fd);
+js_command read_js(int* fd, int* axis, int* button);
 
 #endif /* _LINUX_JOYSTICK_H */
