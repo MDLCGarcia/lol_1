@@ -187,6 +187,15 @@ int 	rs232_putchar(char c)
 	return result;
 }
 
+void send_packet(Packet packet)
+{
+	rs232_putchar(packet.startByte);
+	rs232_putchar(packet.dataLength);
+	rs232_putchar(packet.type);
+	rs232_putchar(packet.valueLength);
+	rs232_putchar(packet.value);
+	rs232_putchar(packet.CRC);
+}
 
 /*----------------------------------------------------------------
  * main -- execute terminal
@@ -256,6 +265,17 @@ int main(int argc, char **argv)
 		*value_tag = mode;
 		type_tag = T_MODE;
 		pkt = Create_Packet(type_tag, 1, value_tag);
+		send_packet(pkt);
+
+		//Send Packet bytes through RS232
+		printf("Testing- Type:%d\n", pkt->type);
+		printf("Testing- startbyte:%d\n", pkt->startByte);
+		printf("Testing- datalength:%d\n", pkt->dataLength);
+		printf("Testing- value length:%d\n", pkt->valueLength);
+		printf("Testing- value:%d\n", *(pkt->value));
+		printf("Testing- CRC:%d\n", *(pkt->CRC));
+		Destroy_Packet(pkt);
+		free(packetByteStream);
 	}
 	term_exitio();
 	rs232_close();
