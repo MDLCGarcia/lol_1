@@ -16,44 +16,44 @@ kb_command read_kb(char c)
 	switch (c)
 	{
 	case ESC:
-		kb_c->Mode = M_PANIC;
+		kb_c.Mode = M_PANIC;
 		break;
 
 	case ZERO:
-		kb_c->Mode = M_SAFE;
+		kb_c.Mode = M_SAFE;
 		term_puts("changed mode to safe mode\n");
 		break;
 
 	case ONE:
-		kb_c->Mode = M_PANIC;
+		kb_c.Mode = M_PANIC;
 		break;
 
 	case TWO:
-		kb_c->Mode = M_MANUAL;
+		kb_c.Mode = M_MANUAL;
 		break;
 
 	case THREE:
-		kb_c->Mode = M_CALIBRATION;
+		kb_c.Mode = M_CALIBRATION;
 		break;
 
 	case FOUR:
-		kb_c->Mode = M_YAWCONTROL;
+		kb_c.Mode = M_YAWCONTROL;
 		break;
 
 	case FIVE:
-		kb_c->Mode = M_FULLCONTROL;
+		kb_c.Mode = M_FULLCONTROL;
 		break;
 
 	case SIX:
-		kb_c->Mode = M_RAWMODE;
+		kb_c.Mode = M_RAWMODE;
 		break;
 
 	case SEVEN:
-		kb_c->Mode = M_HEIGHTCONTROL;
+		kb_c.Mode = M_HEIGHTCONTROL;
 		break;
 
 	case EIGHT:
-		kb_c->Mode = M_WIRELESS;
+		kb_c.Mode = M_WIRELESS;
 		break;
 	
 	/*

@@ -14,7 +14,7 @@ Steps:
 
 #include "../protocol/packet.h"
 #include "keyboard.h"
-#include "joystick.h"
+//#include "joystick.h"
 
 
 int run = 1;

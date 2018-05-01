@@ -29,6 +29,16 @@
  * Vojtech Pavlik, Ucitelska 1576, Prague 8, 182 00 Czech Republic
  */
 
+#include <sys/ioctl.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <errno.h>
+#include <string.h>
+
 #include <asm/types.h>
 #include <linux/input.h>
 

@@ -61,23 +61,23 @@ js_command read_js(int* fd, int* axis, int* button)
 
 	// Switch the mode
 	if (*button[0])
-		js_c->Mode = M_SAFE;
+		js_c.Mode = M_SAFE;
 	if (*button[1])
-		js_c->Mode = M_PANIC;
+		js_c.Mode = M_PANIC;
 	if (*button[2])
-		js_c->Mode = M_MANUAL;
+		js_c.Mode = M_MANUAL;
 	if (*button[3])
-		js_c->Mode = M_CALIBRATION;
+		js_c.Mode = M_CALIBRATION;
 	if (*button[4])
-		js_c->Mode = M_YAWCONTROL;
+		js_c.Mode = M_YAWCONTROL;
 	if (*button[5])
-		js_c->Mode = M_FULLCONTROL;
+		js_c.Mode = M_FULLCONTROL;
 	if (*button[6])
-		js_c->Mode = M_RAWMODE;
+		js_c.Mode = M_RAWMODE;
 	if (*button[7])
-		js_c->Mode = M_HEIGHTCONTROL;
+		js_c.Mode = M_HEIGHTCONTROL;
 	if (*button[8])
-		js_c->Mode = M_WIRELESS;
+		js_c.Mode = M_WIRELESS;
 
 	/*
 	// roll
